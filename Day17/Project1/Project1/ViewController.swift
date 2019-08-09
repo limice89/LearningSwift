@@ -24,6 +24,9 @@ class ViewController: UITableViewController {
                 pictures.append(item)
             }
         }
+        title = "Storm Viewer"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
         print(pictures)
     }
     //tableView 有多少条数据
@@ -35,6 +38,16 @@ class ViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Picture", for: indexPath)
         cell.textLabel?.text = pictures[indexPath.row]
         return cell
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //加载detail viewController DetailViewController类的实例
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController{
+            //点击的哪一个图片的名字
+            vc.imageName = pictures[indexPath.row]
+            //push到DetailViewController 在detailViewController 中显示图片
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
 }
 
