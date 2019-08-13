@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class ViewController: UITableViewController {
+    var pictures: [String] = [String]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-<<<<<<< HEAD:Day17/Project1/Project1/ViewController.swift
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
@@ -49,10 +49,5 @@ class ViewController: UIViewController {
         }
         
     }
-=======
-    }
-
-
->>>>>>> parent of 05c25cc...  Project 1, 第一部分:Day16/Project1/Project1/ViewController.swift
 }
 
