@@ -25,7 +25,7 @@ class DetailViewController: UIViewController {
             print("没有图片")
             return
         }
-        let vc = UIActivityViewController(activityItems: [image], applicationActivities: [])
+        let vc = UIActivityViewController(activityItems: [self.imageName!,image], applicationActivities: [])
         vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
         present(vc, animated: true, completion: nil)
         
