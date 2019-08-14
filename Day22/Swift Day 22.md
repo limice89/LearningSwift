@@ -18,6 +18,54 @@
 我们拷贝项目1的所有文件,并更改为项目3,用Xcode启动,并打开DetailViewController.swift文件,在`viewDidLoad()`方法里加入
 
 ```
+navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
+```
+这里会有一个报错,因为未实现`shareTapped`方法,先往下看
+这段代码分成两部分,左边是分配一个`rightBarButtonItem`给ViewControlller的`navigationItem`,这是导航栏右侧的一个按钮展示相关信息,并触发相应的事件 		
+右边是创建了一个`UIBarButtonItem`,有三个参数: barButtonSystemItem,target, action; barButtonSystemItem是个枚举,有很多选项,这里我们用.action分享的图标代表用户点击时可以做一些事情, target ...action两个参数一般是一起的,代表那个类执行某个方法,这是的self代表当前ViewController;  `#selector`指定一个方法在点击的时候触发		
+如果你不喜欢系统提供的按钮样式,可以使用图标自定义
+
+BarButton创建好了,但是`shareTapped()`方法未创建,接下来我们创建这个方法,触发分享的操作
 
 ```
+@objc func shareTapped() {
+    guard let image = imageView.image?.jpegData(compressionQuality: 0.8) else {
+        print("没有图片")
+        return
+    }
+    let vc = UIActivityViewController(activityItems: [image], applicationActivities: [])
+    vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+    present(vc, animated: true, completion: nil)
+    
+}
+```
+> * 方法前面用`@objc`修饰,是因为我们使用了Objective-C的系统内的(`UIBarButtonItem`),所以用`@objc`修饰表示可以接受Objective-C代码,使用`#selector`的都需要加上`@objc`
+> * imageView可能没有图片,所以我们为了安全起见,转换成JPEG数据,`compressionQuality`参数带白哦压缩值从0.0~1.0
+> * 下一步我们创建一个分享内容给其他app或者系统的`UIActivityViewController`
+> * 最后将ActivityViewController与rightBarButtonItem事件关联
+
+在iphone上, ActivityViewController占满整个屏幕,在iPad上是一个popover视图,锚点指向rightBarButtonItem
+
+![演示](images/project3_1.png)
+
+### 修复一个小bug
+当前代码有一个小的但很重要的bug,当你选择保存图片到相册的时候,你会看到app直接闪退了,这是因为当app写入相册的时候,必须由用户同意允许访问相册
+
+修复这个问题,我么需要修改info.plist文件,选择info.plist文件,选择'Add Row'(+号),会有一个以`Application Category`列表,滑动列表找到`Privacy - Photo Library Additions Usage Description`,这个是在添加图片到相册的时候展示给用户的提示
+![选择提示信息](images/project3_2.png)
+选择了`Privacy - Photo Library Additions Usage Description`以后,右边是一个`String`,空白处可以填写当保存到相册时展示给用户的提示信息,比如"我们需要存储你喜欢的图像"
+
+现在重新运行app,当选择保存到相册的时候会给出一个提示选择,是否允许写入图像到相册
 ## Wrap up
+
+这是个在已有的app新增的简单的功能,这里你学习了`UIBarButtonItem`和`UIActivityViewController`
+
+[复习项目3](https://www.hackingwithswift.com/review/hws/project-3-social-media)
+
+### 挑战
+学习的最好方式之一就是极可能经常自己写代码,这里有三个任务提升你的能力
+
+1. 分享的时候增加图片名称,`activityItems`参数是一个数组,你可以自由的增加字符串,注意:Facebook不允许分享文字
+
+2. 在项目1中的主ViewController中增加BarButtonItem,分享app给其他人
+3. 在项目2中增加BarButtonItem,分享游戏得分

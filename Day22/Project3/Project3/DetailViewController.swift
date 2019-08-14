@@ -20,9 +20,20 @@ class DetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         navigationController?.hidesBarsOnTap = false
     }
+    @objc func shareTapped() {
+        guard let image = imageView.image?.jpegData(compressionQuality: 0.8) else {
+            print("没有图片")
+            return
+        }
+        let vc = UIActivityViewController(activityItems: [image], applicationActivities: [])
+        vc.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(vc, animated: true, completion: nil)
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         title = imageName
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareTapped))
         if let imageToLoad = imageName {
             self.imageView.image = UIImage(named: imageToLoad)
         }
