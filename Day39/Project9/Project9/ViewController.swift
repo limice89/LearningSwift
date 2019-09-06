@@ -44,6 +44,7 @@ class ViewController: UITableViewController {
 //            }
 //            self?.showError()
 //        }
+        
         performSelector(inBackground: #selector(fetchJSON), with: nil)
         // Do any additional setup after loading the view.
     }
