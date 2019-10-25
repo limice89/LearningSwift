@@ -73,4 +73,16 @@ override func collectionView(_ collectionView: UICollectionView, cellForItemAt i
 
 >* `collectionView(_：numberOfItemsInSection :)`这必须返回一个整数，并告诉集合视图要在其网格中显示多少个项目。我从该方法返回了10，但是很快我们将使用一个数组个数代替。
 >* `collectionView(_：cellForItemAt :)`这必须返回`UICollectionViewCell`类型的对象。我们已经在Interface Builder中设计了一个原型，并为其配置了`PersonCell`类，因此我们需要创建并返回其中一个。
+
 >* `dequeueReusableCell(withReuseIdentifier：for :)`这将使用我们指定的重用（在本例中为“ Person”）创建一个收集视图单元，因为这是我们之前在Interface Builder中键入的内容。但是，就像表视图一样，此方法将自动尝试重用集合视图单元格，因此，只要单元格滚动出视图，就可以回收它，这样我们就不必继续创建新的单元格。
+
+
+运行程序发现页面什么都没有,什么情况❓
+找来找去发现Estimate size属性默认为automatic需要改为None
+![estimate size](images/project10_5.png)
+
+此时运行效果如下:
+
+![演示](images/project10_6.png)
+
+
